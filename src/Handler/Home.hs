@@ -43,8 +43,18 @@ getHomeR = defaultLayout $ do
                     <input #fibinput type=number value=4>
                     is
                     <span #fiboutput>
-                    
+
             <div .span6>
+                <h2>Binary
+                <p>
+                    Binary number
+                    <input #bininput type=number value=4>
+                    is
+                    <span #binoutput>
+
+              |]
+                    
+{-            <div .span6>
             
                 <h2>Markdown
                 <textarea #markdowninput>
@@ -54,7 +64,7 @@ getHomeR = defaultLayout $ do
                 <div .control-group>
                     <button #updatemarkdown .btn .btn-primary>Update markdown output
                 <div #markdownoutput>
-    |]
+-}                    
 
     -- Similar to Hamlet, Yesod has Lucius for CSS, and Julius for Javascript.
     toWidget [lucius|
@@ -79,6 +89,12 @@ getHomeR = defaultLayout $ do
                 $("#fiboutput").text(o.value);
             });
         }
+
+        function updateBin() {
+            $.getJSON("/binary/" + $("#bininput").val(), function (o) {
+                $("#binoutput").text(o.value);
+            });
+        }
         
         function updateMarkdown() {
             // Note the use of the MarkdownR Haskell data type here.
@@ -95,6 +111,9 @@ getHomeR = defaultLayout $ do
         $(function(){
             updateFib();
             $("#fibinput").change(updateFib);
+            
+            updateBin();
+            $("#bininput").change(updateBin);
             
             updateMarkdown();
             $("#updatemarkdown").click(updateMarkdown);

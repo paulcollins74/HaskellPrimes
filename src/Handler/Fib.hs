@@ -3,7 +3,7 @@ module Handler.Fib where
 import Import
 
 -- A standard Haskell technique for creating an infinite list of fibonacci values.
-fibs :: [Int]
+fibs :: [Integer]
 fibs = 1 : 1 : zipWith (+) fibs (tail fibs)
 
 -- Unlike Handler.Home, our getFibR returns a Value result, which is the datatype
