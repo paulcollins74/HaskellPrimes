@@ -2,6 +2,7 @@ module Handler.Modulus where
 
 import Import
 import Data.Bits
+import System.Random
 
 -- odd :: Integral a => a -> Bool
 -- odd n = n `mod` 2 == 1
@@ -20,10 +21,10 @@ getBinR :: Integer -> Handler Value
 getBinR i = return $ object ["value" .= showBin (toBinary i) ]
 
 getTest1R :: Integer -> Handler Value
-getTest1R i = return $ object ["value" .= show (modExponentTest i 560 561) ]
+getTest1R i = return $ object ["value" .= show (testRandom $ fromInteger i) ]
 
 getTest2R :: Integer -> Integer -> Handler Value
-getTest2R i j = return $ object ["value" .= show (witness i j) ]
+getTest2R i j = return $ object ["value" .= show (callMillerRabin i j) ]
 
 getTest3R :: Integer -> Integer -> Integer -> Handler Value
 getTest3R i j k = return $ object ["value" .= show (modExponentTest i j k) ]
@@ -49,6 +50,21 @@ witness a n = xt /= 1
     (t,u) = decompose (0,n-1)
     x0 = modExponent a u n
     (xt,_,_) = until (\(_,_,b) -> b) (loop2 n) (x0,t,False)
+
+-- If returns True then number is Composite.  If False then number is almost certainly prime
+callMillerRabin :: Integer -> Integer -> Bool
+callMillerRabin n s = b
+    where
+    (_,b,_) = until (\(t,b,_) -> t == 0 || b) (millerRabin n) (s,False,mkStdGen 3)
+
+millerRabin :: Integer -> (Integer,Bool,StdGen) -> (Integer,Bool,StdGen)
+millerRabin n (s,b,g) | s == 0 || b = (0,True,g)
+millerRabin n (s,False,g) = (s-1, witness (toInteger a) n, g1)
+    where
+    (a,g1) = randomR (1,n-1) g
+
+testRandom :: Int -> [Int]
+testRandom s = map fst $ scanl (\(n,g) _ -> randomR (1,100) g) (0,mkStdGen 3) [1..s]
 
 loop2 :: Integer -> (Integer,Integer,Bool) -> (Integer,Integer,Bool)
 loop2 n (x,0,_) = (x,0,True)
