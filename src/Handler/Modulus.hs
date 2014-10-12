@@ -20,6 +20,8 @@ getBinR :: Integer -> Handler Value
 getBinR i = return $ object ["value" .= showBin (toBinary i) ]
 
 
+
+
 testMain :: IO ()
 testMain = do
     let bs = toBinary 561

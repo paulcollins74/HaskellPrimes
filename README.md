@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This project is a combination of a working web application and a tutorial.
 The inline comments should guide you through an understanding of how this
 application works.
@@ -19,3 +20,9 @@ Feel free to set the Main module as the target and run this application immediat
 see what the result is. Then come back, read the code, experiment with some changes,
 and rerun the application. If at any point you want to undo your changes, use the "Git"
 top menu and select "Reset".
+=======
+HaskellPrimes
+=============
+
+My attempt to write prime checker in Haskell in FPComplete
+>>>>>>> 4f1f0fd1912057477489a52b1201aea620931fdb
