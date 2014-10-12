@@ -52,6 +52,33 @@ getHomeR = defaultLayout $ do
                     is
                     <span #binoutput>
 
+            <div .span6>
+                <h2>Test1
+                <p>
+                    Testing function of 1 variable
+                    <input #test1input type=number value=7>
+                    is
+                    <span #test1output>
+
+            <div .span6>
+                <h2>Test2
+                <p>
+                    Testing function of 2 variables
+                    <input #test2input1 type=number value=2>
+                    <input #test2input2 type=number value=15>
+                    is
+                    <span #test2output>
+
+            <div .span6>
+                <h2>Test3
+                <p>
+                    Testing function of 3 variables
+                    <input #test3input1 type=number value=2>
+                    <input #test3input2 type=number value=7>
+                    <input #test3input3 type=number value=15>
+                    is
+                    <span #test3output>
+
               |]
                     
 {-            <div .span6>
@@ -96,6 +123,24 @@ getHomeR = defaultLayout $ do
             });
         }
         
+        function updateTest1() {
+            $.getJSON("/test1/" + $("#test1input").val(), function (o) {
+                $("#test1output").text(o.value);
+            });
+        }
+
+        function updateTest2() {
+            $.getJSON("/test2/" + $("#test2input1").val() + "/" + $("#test2input2").val(), function (o) {
+                $("#test2output").text(o.value);
+            });
+        }
+
+        function updateTest3() {
+            $.getJSON("/test3/" + $("#test3input1").val() + "/" + $("#test3input2").val() + "/" + $("#test3input3").val(), function (o) {
+                $("#test3output").text(o.value);
+            });
+        }
+        
         function updateMarkdown() {
             // Note the use of the MarkdownR Haskell data type here.
             // This is an example of a type-safe URL.
@@ -114,6 +159,18 @@ getHomeR = defaultLayout $ do
             
             updateBin();
             $("#bininput").change(updateBin);
+            
+            updateTest1();
+            $("#test1input").change(updateTest1);
+
+            updateTest2();
+            $("#test2input1").change(updateTest2);
+            $("#test2input2").change(updateTest2);
+
+            updateTest3();
+            $("#test3input1").change(updateTest3);
+            $("#test3input2").change(updateTest3);
+            $("#test3input3").change(updateTest3);
             
             updateMarkdown();
             $("#updatemarkdown").click(updateMarkdown);
